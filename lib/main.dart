@@ -3,7 +3,7 @@ import 'package:app/DatabaseHelper.dart';
 import 'package:app/model/Carro.dart';
 import 'package:app/model/Destino.dart';
 import 'package:app/model/PrecoCombustivel.dart';
-import 'package:app/AddDados.dart'; 
+import 'package:app/AddDados.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,13 +46,18 @@ class _ViagemPageState extends State<ViagemPage> {
   }
 
   Future<void> _carregarDados() async {
-    _carros = await _databaseHelper.getCarros();
-    _destinos = await _databaseHelper.getDestinos();
-    _precos = await _databaseHelper.getPrecos();
-    setState(() {});
+    var aux1 = await _databaseHelper.getCarros();
+    var aux2 = await _databaseHelper.getDestinos();
+    var aux3 = await _databaseHelper.getPrecos();
+    setState(() {
+      _carros = aux1;
+      _destinos = aux2;
+      _precos = aux3;
+    });
   }
 
-  double calcularGastoViagem(Carro carro, Destino destino, PrecoCombustivel preco) {
+  double calcularGastoViagem(
+      Carro carro, Destino destino, PrecoCombustivel preco) {
     double litrosNecessarios = destino.distancia / carro.autonomia;
     return litrosNecessarios * preco.preco;
   }
@@ -126,8 +131,11 @@ class _ViagemPageState extends State<ViagemPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (carroSelecionado != null && destinoSelecionado != null && precoSelecionado != null) {
-                  double gasto = calcularGastoViagem(carroSelecionado!, destinoSelecionado!, precoSelecionado!);
+                if (carroSelecionado != null &&
+                    destinoSelecionado != null &&
+                    precoSelecionado != null) {
+                  double gasto = calcularGastoViagem(carroSelecionado!,
+                      destinoSelecionado!, precoSelecionado!);
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(

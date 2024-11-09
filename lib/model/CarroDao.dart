@@ -1,6 +1,5 @@
 import 'package:app/model/Carro.dart';
 import 'package:app/DatabaseHelper.dart';
-import 'package:sqflite/sqflite.dart';
 
 
 

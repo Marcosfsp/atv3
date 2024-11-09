@@ -1,10 +1,10 @@
 class PrecoCombustivel {
-  final int id;
+  final int? id;
   final String tipo;
   final double preco; // preço por litro
   final DateTime data;
 
-  PrecoCombustivel({required this.id, required this.tipo, required this.preco, required this.data});
+  PrecoCombustivel({this.id, required this.tipo, required this.preco, required this.data});
 
   Map<String, dynamic> toMap() {
     return {

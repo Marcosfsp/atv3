@@ -1,9 +1,9 @@
 class Carro {
-  final int id;
+  final int? id;
   final String modelo;
   final double autonomia; // km/L
 
-  Carro({required this.id, required this.modelo, required this.autonomia});
+  Carro({this.id, required this.modelo, required this.autonomia});
 
   Map<String, dynamic> toMap() {
     return {

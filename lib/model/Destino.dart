@@ -1,9 +1,9 @@
 class Destino {
-  final int id;
+  final int? id;
   final String nome;
   final double distancia; // km
 
-  Destino({required this.id, required this.nome, required this.distancia});
+  Destino({this.id, required this.nome, required this.distancia});
 
   Map<String, dynamic> toMap() {
     return {
