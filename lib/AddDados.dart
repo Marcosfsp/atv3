@@ -5,7 +5,8 @@ import 'package:app/model/Destino.dart';
 import 'package:app/model/PrecoCombustivel.dart';
 
 class AdicionarDadosPage extends StatefulWidget {
-  const AdicionarDadosPage({super.key});
+  final Future<void> Function() func1;
+  const AdicionarDadosPage({super.key, required this.func1});
 
   @override
   _AdicionarDadosPageState createState() => _AdicionarDadosPageState();
@@ -17,7 +18,8 @@ class _AdicionarDadosPageState extends State<AdicionarDadosPage> {
   final TextEditingController _autonomiaController = TextEditingController();
   final TextEditingController _nomeDestinoController = TextEditingController();
   final TextEditingController _distanciaController = TextEditingController();
-  final TextEditingController _tipoCombustivelController = TextEditingController();
+  final TextEditingController _tipoCombustivelController =
+      TextEditingController();
   final TextEditingController _precoController = TextEditingController();
 
   void _adicionarCarro() async {
@@ -25,10 +27,12 @@ class _AdicionarDadosPageState extends State<AdicionarDadosPage> {
     final double autonomia = double.tryParse(_autonomiaController.text) ?? 0.0;
 
     if (modelo.isNotEmpty && autonomia > 0) {
-      await _databaseHelper.insertCarro(Carro(id: 0, modelo: modelo, autonomia: autonomia));
+      await _databaseHelper
+          .insertCarro(Carro(modelo: modelo, autonomia: autonomia));
       _modeloController.clear();
       _autonomiaController.clear();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Carro adicionado!')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Carro adicionado!')));
     }
   }
 
@@ -37,10 +41,12 @@ class _AdicionarDadosPageState extends State<AdicionarDadosPage> {
     final double distancia = double.tryParse(_distanciaController.text) ?? 0.0;
 
     if (nome.isNotEmpty && distancia > 0) {
-      await _databaseHelper.insertDestino(Destino(id: 0, nome: nome, distancia: distancia));
+      await _databaseHelper
+          .insertDestino(Destino(nome: nome, distancia: distancia));
       _nomeDestinoController.clear();
       _distanciaController.clear();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Destino adicionado!')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Destino adicionado!')));
     }
   }
 
@@ -49,10 +55,12 @@ class _AdicionarDadosPageState extends State<AdicionarDadosPage> {
     final double preco = double.tryParse(_precoController.text) ?? 0.0;
 
     if (tipo.isNotEmpty && preco > 0) {
-      await _databaseHelper.insertPreco(PrecoCombustivel(id: 0, tipo: tipo, preco: preco, data: DateTime.now()));
+      await _databaseHelper.insertPreco(
+          PrecoCombustivel(tipo: tipo, preco: preco, data: DateTime.now()));
       _tipoCombustivelController.clear();
       _precoController.clear();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Preço de combustível adicionado!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Preço de combustível adicionado!')));
     }
   }
 
@@ -61,6 +69,13 @@ class _AdicionarDadosPageState extends State<AdicionarDadosPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Adicionar Dados'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            widget.func1();
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -73,7 +88,8 @@ class _AdicionarDadosPageState extends State<AdicionarDadosPage> {
               ),
               TextField(
                 controller: _autonomiaController,
-                decoration: const InputDecoration(labelText: 'Autonomia (km/L)'),
+                decoration:
+                    const InputDecoration(labelText: 'Autonomia (km/L)'),
                 keyboardType: TextInputType.number,
               ),
               ElevatedButton(
@@ -97,7 +113,8 @@ class _AdicionarDadosPageState extends State<AdicionarDadosPage> {
               const Divider(),
               TextField(
                 controller: _tipoCombustivelController,
-                decoration: const InputDecoration(labelText: 'Tipo de Combustível'),
+                decoration:
+                    const InputDecoration(labelText: 'Tipo de Combustível'),
               ),
               TextField(
                 controller: _precoController,

@@ -42,10 +42,10 @@ class _ViagemPageState extends State<ViagemPage> {
   @override
   void initState() {
     super.initState();
-    _carregarDados();
+    carregarDados();
   }
 
-  Future<void> _carregarDados() async {
+  Future<void> carregarDados() async {
     var aux1 = await _databaseHelper.getCarros();
     var aux2 = await _databaseHelper.getDestinos();
     var aux3 = await _databaseHelper.getPrecos();
@@ -73,7 +73,9 @@ class _ViagemPageState extends State<ViagemPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AdicionarDadosPage()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        AdicionarDadosPage(func1: carregarDados)),
               );
             },
           ),
